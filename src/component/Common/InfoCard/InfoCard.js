@@ -1,8 +1,7 @@
 import React from "react";
 
 const InfoCard = (props) => {
-    const {infoTitle, infoDetails, icon, bgClass} = props.details
-    console.log(props.details);
+    const {infoTitle, infoDetails, icon} = props.details
   return (
     <div className="card lg:card-side bg-base-100 shadow-xl bg-gradient-to-r from-primary to-secondary">
       <figure className="pl-5 mt-5">
