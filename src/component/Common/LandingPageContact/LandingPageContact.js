@@ -4,7 +4,7 @@ import appointment from "../../../assets/images/appointment.png";
 const LandingPageContact = () => {
   return (
     <div
-      className="min-h-min bg-no-repeat bg-center"
+      className="min-h-min bg-no-repeat bg-center p-20"
       style={{ backgroundImage: `url(${appointment})` }}
     >
       <div class="hero-content flex-col lg:flex-row-reverse">

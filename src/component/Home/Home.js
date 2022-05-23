@@ -1,5 +1,6 @@
 import React from "react";
 import Banner from "../Common/Banner/Banner";
+import Footer from "../Common/Footer/Footer";
 import Info from "../Common/Info/Info";
 import LandingPageContact from "../Common/LandingPageContact/LandingPageContact";
 import MakeAppointment from "../Common/MakeAppointment/MakeAppointment";
@@ -19,6 +20,7 @@ const Home = () => {
         <Testimonials />
       </div>
       <LandingPageContact />
+      <Footer />
     </>
   );
 };
