@@ -5,11 +5,13 @@ import { format } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import Service from "./Service";
 import Slot from "./Slot";
+import BookingModal from "./BookingModal";
 
 const AppointmentBanner = () => {
   const [selected, setSelected] = useState(new Date());
   const [Services, setServices] = useState([]);
   const [ServiceSelected, setServiceSelected] = useState("Cosmetic Dentistry");
+  const [Treatment, setTreatment] = useState(null)
   const [slot, setSlot] = useState([]);
   let footer = <p>Please pick a day.</p>;
   if (selected) {
@@ -28,10 +30,6 @@ const AppointmentBanner = () => {
     const select = Services.find((service) => service._id === id);
     setServiceSelected(select.serviceName);
     setSlot(select.slot);
-  };
-
-  const HandleSelectSlot = (id) => {
-    alert("Appointment booked");
   };
 
   return (
@@ -85,10 +83,13 @@ const AppointmentBanner = () => {
           </h2>
             <div className="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center items-center">
               {
-                  slot.map(time => <Slot HandleSelectSlot={HandleSelectSlot} details={time}>{ServiceSelected}</Slot>)
+                  slot.map(time => <Slot details={time} ServiceSelected={ServiceSelected} setTreatment={setTreatment}></Slot>)
               }
             </div>
         </div>
+        {
+            Treatment && <BookingModal Treatment={Treatment} AppointDate = {format(selected, "PP")}></BookingModal> 
+        }
       </div>
     </>
   );

@@ -1,7 +1,7 @@
 import React from "react";
 
 const Service = (props) => {
-  const { _id, serviceName} = props.details;
+  const { _id, serviceName, slot } = props.details;
   const { HandleSelectService } = props;
   return (
     <div
@@ -10,6 +10,9 @@ const Service = (props) => {
     >
       <div className="card-body items-center text-center">
         <h2 className="card-title">{serviceName}</h2>
+        <p>
+          {slot.length} {slot.length > 1 ? "Spaces" : "Space"} available
+        </p>
       </div>
     </div>
   );
