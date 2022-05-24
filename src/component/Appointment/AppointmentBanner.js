@@ -19,7 +19,7 @@ const AppointmentBanner = () => {
   }
 
   useEffect(() => {
-    fetch("services.json")
+    fetch("http://localhost:5000/services")
       .then((response) => response.json())
       .then((data) => {
         setServices(data);
@@ -88,7 +88,7 @@ const AppointmentBanner = () => {
             </div>
         </div>
         {
-            Treatment && <BookingModal Treatment={Treatment} AppointDate = {format(selected, "PP")}></BookingModal> 
+            Treatment && <BookingModal Treatment={Treatment} AppointDate = {format(selected, "PP")} setTreatment={setTreatment}></BookingModal> 
         }
       </div>
     </>

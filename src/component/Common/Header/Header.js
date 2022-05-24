@@ -1,25 +1,34 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { signOut } from "firebase/auth";
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
+import auth from "../../../firebase.init";
 
 const Header = () => {
-  const menuItems = <>
-  <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/about">About</Link>
-              </li>
-              <li>
-                <Link to="/appointment">Appointment</Link>
-              </li>
-              <li>
-                <Link to="/review">Review</Link>
-              </li>
-              <li>
-                <Link to="/contact">Contact Us</Link>
-              </li>
-  </>
+  const [user] = useAuthState(auth);
+  if (user) {
+    console.log(user);
+  }
+  const menuItems = (
+    <>
+      <li>
+        <Link to="/">Home</Link>
+      </li>
+      <li>
+        <Link to="/about">About</Link>
+      </li>
+      <li>
+        <Link to="/appointment">Appointment</Link>
+      </li>
+      <li>
+        <Link to="/review">Review</Link>
+      </li>
+      <li>
+        <Link to="/contact">Contact Us</Link>
+      </li>
+    </>
+  );
   return (
     <div className="container mx-auto">
       <div className="navbar bg-base-100">
@@ -45,18 +54,36 @@ const Header = () => {
               tabIndex="0"
               className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
-            {menuItems}  
+              {menuItems}
             </ul>
           </div>
-          <Link to="/" className="btn btn-ghost normal-case text-xl">Doctors Portal</Link>
+          <Link to="/" className="btn btn-ghost normal-case text-xl">
+            Doctors Portal
+          </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal p-0">
-            {menuItems}
-          </ul>
+          <ul className="menu menu-horizontal p-0">{menuItems}</ul>
         </div>
         <div className="navbar-end">
-          <a className="btn btn-primary uppercase text-white font-bold bg-gradient-to-r from-primary to-secondary">Login</a>
+          {user ? (
+            <>
+              <button
+                onClick={() => signOut(auth)}
+                className="btn uppercase text-white font-bold bg-red-400"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="btn uppercase text-white font-bold bg-gradient-to-r from-primary to-secondary"
+              >
+                Login
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </div>

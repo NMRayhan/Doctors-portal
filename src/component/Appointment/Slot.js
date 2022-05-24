@@ -8,7 +8,7 @@ const Slot = ({ ServiceSelected, details, setTreatment }) => {
         <p className="text-center font-semibold text-accent">{details}</p>
         <label
           for="Booking-modal"
-          className="btn btn-primary uppercase text-white font-bold bg-gradient-to-r from-primary to-secondary"
+          className="btn btn-sm btn-primary uppercase text-white font-bold bg-gradient-to-r from-primary to-secondary"
           onClick={() => setTreatment({ details, ServiceSelected })}
         >
           Book Appointment
