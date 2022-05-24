@@ -83,7 +83,7 @@ const AppointmentBanner = () => {
           </h2>
             <div className="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center items-center">
               {
-                  slot.map(time => <Slot details={time} ServiceSelected={ServiceSelected} setTreatment={setTreatment}></Slot>)
+                  slot.map((time, i) => <Slot key={i} details={time} ServiceSelected={ServiceSelected} setTreatment={setTreatment}></Slot>)
               }
             </div>
         </div>

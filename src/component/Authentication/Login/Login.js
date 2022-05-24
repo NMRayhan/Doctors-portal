@@ -1,8 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
+import React, { useEffect } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useLocation, useNavigate } from "react-router-dom";
 import auth from "../../../firebase.init";
+import ForgotPassModal from "../ForgotPassModal/ForgotPassModal";
 import SocialLogAuth from "../SocialLogAuth/SocialLogAuth";
 
 const Login = () => {
@@ -11,7 +12,9 @@ const Login = () => {
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
   let from = location.state?.from?.pathname || "/";
-
+  if (user) {
+    navigate(from, { replace: true });
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
@@ -27,9 +30,12 @@ const Login = () => {
       </span>
     );
   }
-  if (user) {
-    navigate("/appointment");
-  }
+
+  useEffect(() => {
+    if (user) {
+      navigate("/appointment");
+    }
+  }, [user, navigate, from]);
 
   if (loading) {
     return (
@@ -39,10 +45,6 @@ const Login = () => {
         </div>
       </div>
     );
-  }
-
-  if (user) {
-    navigate(from, { replace: true });
   }
 
   return (
@@ -79,9 +81,12 @@ const Login = () => {
                         className="input input-bordered"
                       />
                       <label className="label">
-                        <a href="#" className="label-text-alt link link-hover">
+                        <label
+                          htmlFor="forgot-modal"
+                          className="label-text-alt link link-hover"
+                        >
                           Forgot password?
-                        </a>
+                        </label>
                       </label>
                     </div>
                     <label className="label">{loginError}</label>
@@ -108,6 +113,7 @@ const Login = () => {
                 <div className="grid card rounded place-items-center">
                   <SocialLogAuth />
                 </div>
+                {<ForgotPassModal />}
               </div>
             </div>
           </div>

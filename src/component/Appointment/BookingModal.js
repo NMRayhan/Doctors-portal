@@ -1,7 +1,11 @@
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "../../firebase.init";
 
 const BookingModal = ({ Treatment, AppointDate, setTreatment }) => {
   const { details, ServiceSelected } = Treatment;
+  const[user] = useAuthState(auth)
+  console.log(user);
 
   const handleBookingForm = (event) => {
     event.preventDefault();
@@ -32,7 +36,6 @@ const BookingModal = ({ Treatment, AppointDate, setTreatment }) => {
             <div className="form-control mt-4">
               <input
                 type="text"
-                disabled
                 readOnly
                 name="date"
                 value={AppointDate}
@@ -42,7 +45,6 @@ const BookingModal = ({ Treatment, AppointDate, setTreatment }) => {
             <div className="form-control mt-4">
               <input
                 type="text"
-                disabled
                 readOnly
                 name="slot"
                 value={details}
@@ -52,7 +54,8 @@ const BookingModal = ({ Treatment, AppointDate, setTreatment }) => {
             <div className="form-control mt-4">
               <input
                 type="text"
-                placeholder="Full Name"
+                readOnly
+                value={user?.displayName || ''}
                 name="name"
                 className="input input-bordered"
               />
@@ -69,7 +72,8 @@ const BookingModal = ({ Treatment, AppointDate, setTreatment }) => {
               <input
                 type="text"
                 name="email"
-                placeholder="Email Address"
+                readOnly
+                value={user?.email || ''}
                 className="input input-bordered"
               />
             </div>
