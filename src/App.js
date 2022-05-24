@@ -6,6 +6,7 @@ import Home from "./component/Home/Home";
 import About from "./component/About/About";
 import ContactUs from "./component/ContactUs/ContactUs";
 import Review from "./component/Review/Review";
+import 'react-day-picker/dist/style.css';
 
 function App() {
   return (
