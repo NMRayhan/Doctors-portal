@@ -7,9 +7,6 @@ import auth from "../../../firebase.init";
 
 const Header = () => {
   const [user] = useAuthState(auth);
-  if (user) {
-    console.log(user);
-  }
   const menuItems = (
     <>
       <li>
@@ -22,11 +19,13 @@ const Header = () => {
         <Link to="/appointment">Appointment</Link>
       </li>
       <li>
-        <Link to="/review">Review</Link>
-      </li>
-      <li>
         <Link to="/contact">Contact Us</Link>
       </li>
+      {user && (
+        <li>
+          <Link to="/dashboard">Dashboard</Link>
+        </li>
+      )}
     </>
   );
   return (

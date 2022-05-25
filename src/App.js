@@ -10,34 +10,34 @@ import "react-day-picker/dist/style.css";
 import Login from "./component/Authentication/Login/Login";
 import SignIn from "./component/Authentication/SignIn/SignIn";
 import RequireAuth from "./component/Authentication/RequireAuth/RequireAuth";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Dashboard from "./component/Dashboard/Dashboard";
+import MyAppointment from "./component/Dashboard/MyAppointment";
 function App() {
   return (
     <div>
       <Header></Header>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/contact" element={<ContactUs />} />
-        <Route path="/about" element={<About />} />
+        <Route path="contact" element={<ContactUs />} />
+        <Route path="about" element={<About />} />
         <Route
-          path="/appointment"
+          path="appointment"
           element={
             <RequireAuth>
               <Appointment />
             </RequireAuth>
           }
         />
-        <Route
-          path="/review"
-          element={
-            <RequireAuth>
-              <Review />
-            </RequireAuth>
-          }
-        />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<SignIn />} />
+        <Route path="dashboard" element={<RequireAuth><Dashboard /></RequireAuth>}>
+          <Route index element={<MyAppointment></MyAppointment>}></Route>
+          <Route path="review" element={<Review></Review>}></Route>
+        </Route>
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<SignIn />} />
       </Routes>
+      <ToastContainer />
     </div>
   );
 }

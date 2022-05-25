@@ -1,11 +1,16 @@
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { toast } from "react-toastify";
 import auth from "../../firebase.init";
 
-const BookingModal = ({ Treatment, AppointDate, setTreatment }) => {
+const BookingModal = ({
+  Treatment,
+  AppointDate,
+  setTreatment,
+  ServiceSelected_id,
+}) => {
   const { details, ServiceSelected } = Treatment;
-  const[user] = useAuthState(auth)
-  console.log(user);
+  const [user] = useAuthState(auth);
 
   const handleBookingForm = (event) => {
     event.preventDefault();
@@ -14,8 +19,31 @@ const BookingModal = ({ Treatment, AppointDate, setTreatment }) => {
     const patientPhone = event.target.phone.value;
     const slot = event.target.slot.value;
     const date = event.target.date.value;
-    const bookingDetails = { patientName, patientEmail, patientPhone, slot, date }
-    console.log(bookingDetails);
+    const bookingDetails = {
+      ServiceSelected_id,
+      ServiceSelected,
+      patientName,
+      patientEmail,
+      patientPhone,
+      slot,
+      date,
+    };
+    // console.log(bookingDetails);
+    fetch("http://localhost:5000/setAppointment", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(bookingDetails),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          toast(`${data.message} at ${details} ${AppointDate}`);
+        } else {
+          toast.error(`${data.message} at ${details} ${AppointDate}`);
+        }
+      });
     setTreatment(null);
   };
   return (
@@ -55,7 +83,7 @@ const BookingModal = ({ Treatment, AppointDate, setTreatment }) => {
               <input
                 type="text"
                 readOnly
-                value={user?.displayName || ''}
+                value={user?.displayName || ""}
                 name="name"
                 className="input input-bordered"
               />
@@ -73,7 +101,7 @@ const BookingModal = ({ Treatment, AppointDate, setTreatment }) => {
                 type="text"
                 name="email"
                 readOnly
-                value={user?.email || ''}
+                value={user?.email || ""}
                 className="input input-bordered"
               />
             </div>

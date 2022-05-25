@@ -32,25 +32,25 @@ const ForgotPassModal = () => {
 
   return (
     <div>
-      <input type="checkbox" id="forgot-modal" class="modal-toggle" />
-      <div class="modal">
-        <div class="modal-box relative">
+      <input type="checkbox" id="forgot-modal" className="modal-toggle" />
+      <div className="modal">
+        <div className="modal-box relative">
           <label
             htmlFor="forgot-modal"
-            class="btn btn-sm btn-circle absolute right-2 top-2"
+            className="btn btn-sm btn-circle absolute right-2 top-2"
           >
             ✕
           </label>
-          <h3 class="text-lg font-bold">Forgot Password</h3>
+          <h3 className="text-lg font-bold">Forgot Password</h3>
           <form className="py-4" onSubmit={handleForgotPass}>
             <div className="form-control">
               <input
                 type="text"
                 name="email"
                 placeholder="Enter Your Email"
-                class="input input-bordered input-primary w-full max-w-xs"
+                className="input input-bordered input-primary w-full max-w-xs"
               />
-              <button class="btn btn-ghost shadow-md mt-5" type="submit">
+              <button className="btn btn-ghost shadow-md mt-5" type="submit">
                 Submit
               </button>
             </div>

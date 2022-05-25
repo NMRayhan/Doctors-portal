@@ -11,15 +11,18 @@ const AppointmentBanner = () => {
   const [selected, setSelected] = useState(new Date());
   const [Services, setServices] = useState([]);
   const [ServiceSelected, setServiceSelected] = useState("Cosmetic Dentistry");
+  const [ServiceSelected_id, setServiceSelected_id] = useState('');
   const [Treatment, setTreatment] = useState(null)
   const [slot, setSlot] = useState([]);
   let footer = <p>Please pick a day.</p>;
+  const formatted = format(selected, "PPPP")
   if (selected) {
-    footer = <p>You picked {format(selected, "PP")}.</p>;
+    footer = <p>You picked {format(selected, "PPPP")}.</p>;
   }
+  console.log(formatted);
 
   useEffect(() => {
-    fetch("http://localhost:5000/services")
+    fetch(`http://localhost:5000/services`)
       .then((response) => response.json())
       .then((data) => {
         setServices(data);
@@ -29,6 +32,7 @@ const AppointmentBanner = () => {
   const HandleSelectService = (id) => {
     const select = Services.find((service) => service._id === id);
     setServiceSelected(select.serviceName);
+    setServiceSelected_id(select._id)
     setSlot(select.slot);
   };
 
@@ -56,7 +60,7 @@ const AppointmentBanner = () => {
       <div>
         <div className="my-10">
           <h5 className="text-secondary text-center font-semibold text-2xl mb-5">
-            Available Services on {format(selected, "PP")}
+            Available Services on {format(selected, "PPPP")}
           </h5>
           <h5
             className="text-center font-normal text-xl"
@@ -88,7 +92,7 @@ const AppointmentBanner = () => {
             </div>
         </div>
         {
-            Treatment && <BookingModal Treatment={Treatment} AppointDate = {format(selected, "PP")} setTreatment={setTreatment}></BookingModal> 
+            Treatment && <BookingModal Treatment={Treatment} ServiceSelected_id={ServiceSelected_id} AppointDate = {format(selected, "PPPP")} setTreatment={setTreatment}></BookingModal> 
         }
       </div>
     </>
