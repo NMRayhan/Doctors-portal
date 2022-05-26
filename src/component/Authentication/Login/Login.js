@@ -3,18 +3,26 @@ import React, { useEffect } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useLocation, useNavigate } from "react-router-dom";
 import auth from "../../../firebase.init";
+import useToken from "../../../hooks/useToken";
 import ForgotPassModal from "../ForgotPassModal/ForgotPassModal";
 import SocialLogAuth from "../SocialLogAuth/SocialLogAuth";
 
 const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  let from = location.state?.from?.pathname || "/";
+
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
-  let from = location.state?.from?.pathname || "/";
-  if (user) {
-    navigate(from, { replace: true });
-  }
+
+  const [token] = useToken(user);
+
+  useEffect(() => {
+    if (token) {
+      navigate(from, { replace: true });
+    }
+  }, [token, navigate, from]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
@@ -30,12 +38,6 @@ const Login = () => {
       </span>
     );
   }
-
-  useEffect(() => {
-    if (user) {
-      navigate("/appointment");
-    }
-  }, [user, navigate, from]);
 
   if (loading) {
     return (

@@ -7,10 +7,16 @@ const MyAppointment = () => {
   const [user, loading] = useAuthState(auth);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/appointment?email=${user.email}`)
+    fetch(`http://localhost:5000/appointment?email=${user.email}`, {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
-        setAppointment(data);
+        console.log(data);
+        return setAppointment(data);
       });
   }, [user.email]);
 
@@ -23,7 +29,6 @@ const MyAppointment = () => {
       </div>
     );
   }
-  let count = 1;
   return (
     <div>
       <h3 className="text-2xl text-primary font-bold">
@@ -46,7 +51,7 @@ const MyAppointment = () => {
             {appointment.map((appointment, index) => {
               return (
                 <tr key={index}>
-                  <th>{count++}</th>
+                  <th>{(index += 1)}</th>
                   <td>{appointment.patientName}</td>
                   <td>{appointment.patientEmail}</td>
                   <td>{appointment.patientPhone}</td>

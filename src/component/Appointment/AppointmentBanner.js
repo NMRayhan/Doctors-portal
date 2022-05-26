@@ -19,7 +19,6 @@ const AppointmentBanner = () => {
   if (selected) {
     footer = <p>You picked {format(selected, "PPPP")}.</p>;
   }
-  console.log(formatted);
 
   useEffect(() => {
     fetch(`http://localhost:5000/services`)
@@ -60,7 +59,7 @@ const AppointmentBanner = () => {
       <div>
         <div className="my-10">
           <h5 className="text-secondary text-center font-semibold text-2xl mb-5">
-            Available Services on {format(selected, "PPPP")}
+            Available Services on {formatted}
           </h5>
           <h5
             className="text-center font-normal text-xl"
@@ -92,7 +91,7 @@ const AppointmentBanner = () => {
             </div>
         </div>
         {
-            Treatment && <BookingModal Treatment={Treatment} ServiceSelected_id={ServiceSelected_id} AppointDate = {format(selected, "PPPP")} setTreatment={setTreatment}></BookingModal> 
+            Treatment && <BookingModal Treatment={Treatment} ServiceSelected_id={ServiceSelected_id} AppointDate = {formatted} setTreatment={setTreatment}></BookingModal> 
         }
       </div>
     </>

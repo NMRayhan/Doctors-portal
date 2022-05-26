@@ -1,15 +1,18 @@
 import React from "react";
 import {
   useCreateUserWithEmailAndPassword,
-  useUpdateProfile
+  useUpdateProfile,
 } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import auth from "../../../firebase.init";
+import useToken from "../../../hooks/useToken";
 import SocialLogAuth from "../SocialLogAuth/SocialLogAuth";
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const {
     register,
     handleSubmit,
@@ -21,20 +24,29 @@ const SignIn = () => {
       password: "",
     },
   });
-  const [updateProfile, updating, error] = useUpdateProfile(auth);
-  const [createUserWithEmailAndPassword, user] =
+  const [updateProfile, updating] = useUpdateProfile(auth);
+
+  const [createUserWithEmailAndPassword, user,loading, error] =
     useCreateUserWithEmailAndPassword(auth);
+
+  const [token] = useToken(user);
+
+  let from = location.state?.from?.pathname || "/";
+
+  if (user || token) {
+    navigate(from, { replace: true });
+  }
+
   const onSubmit = async (data) => {
     const name = data.name;
     const email = data.email;
     const password = data.password;
     await createUserWithEmailAndPassword(email, password);
     await updateProfile({ displayName: name });
-    navigate('/appointment')
+    console.log(user);
   };
 
-
-  if (updating) {
+  if (updating || loading) {
     return (
       <div className="min-h-screen">
         <div className="flex items-center justify-center ">
@@ -42,6 +54,10 @@ const SignIn = () => {
         </div>
       </div>
     );
+  }
+
+  if (error) {
+    toast(error.message);
   }
 
   return (

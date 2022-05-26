@@ -67,7 +67,10 @@ const Header = () => {
           {user ? (
             <>
               <button
-                onClick={() => signOut(auth)}
+                onClick={() => {
+                  signOut(auth)
+                  localStorage.removeItem('accessToken')
+                }}
                 className="btn uppercase text-white font-bold bg-red-400"
               >
                 Logout
